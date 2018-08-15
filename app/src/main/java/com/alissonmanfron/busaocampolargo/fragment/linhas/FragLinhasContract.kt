@@ -19,6 +19,8 @@ interface FragLinhasContract {
         fun showMessageFavorite(name: String)
 
         fun navigateToLinhaDetail(linha: Linha)
+
+        fun navigateToFragFavorite()
     }
 
     interface LinhasInteractor {

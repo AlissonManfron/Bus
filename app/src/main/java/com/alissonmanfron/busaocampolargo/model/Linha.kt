@@ -3,8 +3,8 @@ package com.alissonmanfron.busaocampolargo.model
 import android.os.Parcel
 import android.os.Parcelable
 
-class Linha(var cod: Int, var name: String, var isFavorite: Boolean,
-            var linhasBairro: ArrayList<Int>, var linhasTerminal: ArrayList<Int>) : Parcelable {
+class Linha(var cod: Int, var name: String, var isFavorite: Boolean, var linhasBairro: ArrayList<Int>,
+            var linhasTerminal: ArrayList<Int>) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readInt(),

@@ -4,6 +4,7 @@ package com.alissonmanfron.busaocampolargo.fragment.linhas
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -89,6 +90,11 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
     fun onClickFavoriteLinha(linha: Linha) {
         //presenter.onClickLinha(linha, isFavorite)
         toast("${linha.name} is favorite ? ${linha.isFavorite}")
+    }
+
+    override fun navigateToFragFavorite() {
+        val viewPager = activity?.findViewById<ViewPager>(R.id.viewPager)
+        viewPager?.setCurrentItem(0,true)
     }
 
     override fun onDestroy() {
