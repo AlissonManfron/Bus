@@ -4,13 +4,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.alissonmanfron.busaocampolargo.R
-import com.alissonmanfron.busaocampolargo.model.Linha
+import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
 import kotlinx.android.synthetic.main.item_linhas.view.*
 
-class LinhasAdapter(private var linhas: List<Linha>,
-                    val callback: (Linha, Boolean) -> Unit) :
+class LinhasAdapter(private var linhas: List<LinhaObj>,
+                    val callback: (LinhaObj , Boolean) -> Unit) :
         RecyclerView.Adapter<LinhasAdapter.LinhasViewHolder>() {
 
     override fun getItemCount() = this.linhas.size
@@ -31,19 +30,24 @@ class LinhasAdapter(private var linhas: List<Linha>,
         with(view) {
             // Atualiza os dados do carro
             txt_name_linha.text = linha.name
+
+            tg_btn_favorite.setBackgroundResource(if (linha.isFavorite) R.drawable.ic_star_yellow else R.drawable.ic_star_white)
+
             // Adiciona o evento de clique na linha
             setOnClickListener { callback(linha, false) }
 
             tg_btn_favorite.setOnClickListener {
-                if (linha.isFavorite) {
-                    linha.isFavorite = false
-                    tg_btn_favorite.setBackgroundResource(R.drawable.ic_star_white)
-                } else {
-                    linha.isFavorite = true
-                    tg_btn_favorite.setBackgroundResource(R.drawable.ic_star_yellow)
-
-                }
+                linha.isFavorite = !linha.isFavorite
                 callback(linha, true)
+            }
+        }
+    }
+
+    fun onChangeBgButtomFavorite(linha: LinhaObj) {
+        for (l in linhas) {
+            if (l.id == linha.id) {
+                l.isFavorite = linha.isFavorite
+                notifyDataSetChanged()
             }
         }
     }

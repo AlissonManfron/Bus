@@ -26,7 +26,7 @@ class ExampleInstrumentedTest {
     fun setUp() {
         // Context of the app under test.
         appContext = InstrumentationRegistry.getTargetContext()
-        database = AppDatabase.getInstance(appContext!!)
+        database = AppDatabase.getInstance()
     }
 
     @Test

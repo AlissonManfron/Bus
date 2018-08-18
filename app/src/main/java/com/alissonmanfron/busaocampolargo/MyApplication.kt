@@ -4,7 +4,7 @@ import android.support.multidex.MultiDexApplication
 import android.util.Log
 
 class MyApplication: MultiDexApplication() {
-    private val TAG = "CarrosApplication"
+    private val TAG = "MyApplication"
 
     // Chamado quando o Android criar o processo da aplicação
     override fun onCreate() {
@@ -28,6 +28,6 @@ class MyApplication: MultiDexApplication() {
     // Chamado quando o Android finalizar o processo da aplicação
     override fun onTerminate() {
         super.onTerminate()
-        Log.d(TAG, "CarrosApplication.onTerminate()")
+        Log.d(TAG, "MyApplication.onTerminate()")
     }
 }

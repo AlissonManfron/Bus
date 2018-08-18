@@ -14,13 +14,14 @@ import com.alissonmanfron.busaocampolargo.R
 import com.alissonmanfron.busaocampolargo.activity.detail.LinhaDetailActivity
 import com.alissonmanfron.busaocampolargo.adapter.LinhasAdapter
 import com.alissonmanfron.busaocampolargo.extensions.toast
-import com.alissonmanfron.busaocampolargo.model.Linha
+import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
 import kotlinx.android.synthetic.main.fragment_linhas.*
 
 class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
 
     // Variables
     private lateinit var presenter: FragLinhasContract.LinhasPresenter
+    private var adapter: LinhasAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -48,14 +49,14 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
         rv_linhas.setHasFixedSize(true)
     }
 
-    override fun setListLinhas(linhas: List<Linha>) {
+    override fun setListLinhasObj(linhas: List<LinhaObj>) {
         // Atualiza a lista
         activity?.runOnUiThread({
-            // Atualiza a lista
             rv_linhas.visibility = View.VISIBLE
-            rv_linhas.adapter = LinhasAdapter(linhas) { linha: Linha, clickFavorite: Boolean ->
+            adapter = LinhasAdapter(linhas) { linha: LinhaObj, clickFavorite: Boolean ->
                 if (clickFavorite) onClickFavoriteLinha(linha) else onClickLinha(linha)
             }
+            rv_linhas.adapter = adapter
         })
     }
 
@@ -67,11 +68,16 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
         activity?.runOnUiThread { pbLinhas.visibility = View.GONE }
     }
 
-    override fun showMessageFavorite(name: String) {
-        toast("$name foi adicionado ao seus favoritos!")
+    override fun successSetFavorite(linha: LinhaObj, msg: String) {
+        adapter?.onChangeBgButtomFavorite(linha)
+        toast(msg)
     }
 
-    override fun navigateToLinhaDetail(linha: Linha) {
+    override fun errorSetFavorite(msg: String) {
+        toast(msg)
+    }
+
+    override fun navigateToLinhaDetail(linha: LinhaObj) {
         val intent = Intent(activity, LinhaDetailActivity::class.java)
         val bundle = Bundle()
         bundle.putParcelable("linha", linha)
@@ -83,13 +89,12 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
         toast("Ocorreu um erro ao carregar as listas. Tente novamente!")
     }
 
-    override fun onClickLinha(linha: Linha) {
+    fun onClickLinha(linha: LinhaObj) {
         presenter.onClickLinha(linha)
     }
 
-    fun onClickFavoriteLinha(linha: Linha) {
-        //presenter.onClickLinha(linha, isFavorite)
-        toast("${linha.name} is favorite ? ${linha.isFavorite}")
+    fun onClickFavoriteLinha(linha: LinhaObj) {
+        presenter.onClickFavoriteLinha(linha)
     }
 
     override fun navigateToFragFavorite() {
