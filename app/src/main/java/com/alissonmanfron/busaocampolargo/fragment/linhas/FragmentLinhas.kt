@@ -4,7 +4,6 @@ package com.alissonmanfron.busaocampolargo.fragment.linhas
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -14,17 +13,20 @@ import com.alissonmanfron.busaocampolargo.R
 import com.alissonmanfron.busaocampolargo.activity.detail.LinhaDetailActivity
 import com.alissonmanfron.busaocampolargo.adapter.LinhasAdapter
 import com.alissonmanfron.busaocampolargo.extensions.toast
+import com.alissonmanfron.busaocampolargo.listener.FavoritoEvent
 import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
 import kotlinx.android.synthetic.main.fragment_linhas.*
+import org.greenrobot.eventbus.EventBus
 
 class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
 
     // Variables
-    private lateinit var presenter: FragLinhasContract.LinhasPresenter
+    private var presenter: FragLinhasContract.LinhasPresenter? = null
     private var adapter: LinhasAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_linhas, container, false)
     }
@@ -39,7 +41,7 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
         presenter = FragLinhasPresenterImpl(this, FragLinhasInteractorImpl())
 
         // Get Linhas
-        presenter.getLinhas()
+        presenter?.loadLinhas()
 
     }
 
@@ -90,20 +92,23 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
     }
 
     fun onClickLinha(linha: LinhaObj) {
-        presenter.onClickLinha(linha)
+        presenter?.onClickLinha(linha)
     }
 
     fun onClickFavoriteLinha(linha: LinhaObj) {
-        presenter.onClickFavoriteLinha(linha)
+        presenter?.onClickFavoriteLinha(linha)
     }
 
-    override fun navigateToFragFavorite() {
-        val viewPager = activity?.findViewById<ViewPager>(R.id.viewPager)
-        viewPager?.setCurrentItem(0,true)
+    override fun navigateToFragFavorite(linha: LinhaObj) {
+        // Dispara um evento para atualizar a lista
+        EventBus.getDefault().post(FavoritoEvent(linha))
+
+        //val viewPager = activity?.findViewById<ViewPager>(R.id.viewPager)
+        //viewPager?.setCurrentItem(0, true)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.onDestroy()
+        presenter?.onDestroy()
     }
 }

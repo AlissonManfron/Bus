@@ -11,12 +11,15 @@ interface LinhaDao {
     @Query("SELECT * FROM linha")
     fun gelAll(): List<LinhaObj>
 
+    @Query("SELECT * FROM linha WHERE is_favorite = 1")
+    fun gelAllFavorites(): List<LinhaObj>
+
     @Insert(onConflict = REPLACE)
     fun insert(linha: LinhaObj)
 
     @Query("DELETE from linha")
     fun deleteAll()
 
-    @Query("UPDATE linha SET is_favorite=:isFavorite WHERE id=:id")
-    fun updateFavorite(id: Long, isFavorite: Boolean)
+    @Query("UPDATE linha SET is_favorite=:isFavorite WHERE cod=:cod")
+    fun updateFavorite(cod: Int, isFavorite: Boolean)
 }

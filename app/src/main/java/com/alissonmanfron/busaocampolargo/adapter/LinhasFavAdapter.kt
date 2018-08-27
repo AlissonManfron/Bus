@@ -8,22 +8,22 @@ import com.alissonmanfron.busaocampolargo.R
 import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
 import kotlinx.android.synthetic.main.item_linhas.view.*
 
-class LinhasAdapter(private var linhas: List<LinhaObj>,
-                    private val callback: (LinhaObj , Boolean) -> Unit) :
-        RecyclerView.Adapter<LinhasAdapter.LinhasViewHolder>() {
+class LinhasFavAdapter(private var linhas: List<LinhaObj>,
+                       val callback: (LinhaObj, Boolean) -> Unit) :
+        RecyclerView.Adapter<LinhasFavAdapter.LinhasFavViewHolder>() {
 
     override fun getItemCount() = this.linhas.size
 
     // Infla o layout do adapter e retorna o ViewHolder
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LinhasViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LinhasFavViewHolder {
         // Infla a view do adapter
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_linhas, parent, false)
         // Retorna o ViewHolder que contém todas as views
-        return LinhasViewHolder(view)
+        return LinhasFavViewHolder(view)
     }
 
     // Faz o bind para atualizar o valor das views com os dados do Carro
-    override fun onBindViewHolder(holder: LinhasViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LinhasFavViewHolder, position: Int) {
         // Recupera o objeto carro
         val linha = linhas[position]
         val view = holder.itemView
@@ -53,5 +53,5 @@ class LinhasAdapter(private var linhas: List<LinhaObj>,
     }
 
     // ViewHolder fica vazio pois usamos o import do Android Kotlin Extensions
-    class LinhasViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    class LinhasFavViewHolder(view: View) : RecyclerView.ViewHolder(view)
 }

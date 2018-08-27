@@ -6,7 +6,7 @@ class FragLinhasPresenterImpl(private var linhasView: FragLinhasContract.LinhasV
                               private var linhasInteractor: FragLinhasInteractorImpl) :
         FragLinhasContract.LinhasPresenter {
 
-    override fun getLinhas() {
+    override fun loadLinhas() {
 
         linhasView?.showProgressBar()
 
@@ -32,10 +32,11 @@ class FragLinhasPresenterImpl(private var linhasView: FragLinhasContract.LinhasV
         linhasInteractor.changeFavorite(linha, object : FragLinhasContract.LinhasInteractor.OnFavoriteFinishedListener {
             override fun onFavoriteSuccess() {
                 linhasView?.successSetFavorite(linha,
-                        if (linha.isFavorite)
+                        if (linha.isFavorite) {
                             "${linha.name} foi adicionado ao seus favoritos!"
-                        else
+                        } else
                             "${linha.name} foi removido dos favoritos!")
+                linhasView?.navigateToFragFavorite(linha)
             }
 
             override fun onFavoriteError() {
