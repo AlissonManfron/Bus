@@ -13,16 +13,24 @@ import com.alissonmanfron.busaocampolargo.R
 import com.alissonmanfron.busaocampolargo.activity.detail.LinhaDetailActivity
 import com.alissonmanfron.busaocampolargo.adapter.LinhasAdapter
 import com.alissonmanfron.busaocampolargo.extensions.toast
-import com.alissonmanfron.busaocampolargo.listener.FavoritoEvent
+import com.alissonmanfron.busaocampolargo.listener.FavoriteAddEvent
+import com.alissonmanfron.busaocampolargo.listener.FavoriteRemoveEvent
 import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
 import kotlinx.android.synthetic.main.fragment_linhas.*
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 
 class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
 
     // Variables
     private var presenter: FragLinhasContract.LinhasPresenter? = null
     private var adapter: LinhasAdapter? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Registra para receber eventos do bus
+        EventBus.getDefault().register(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -71,7 +79,11 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
     }
 
     override fun successSetFavorite(linha: LinhaObj, msg: String) {
+        // Trigger an event to refresh the list
+        EventBus.getDefault().post(FavoriteAddEvent(linha))
+        // Update buttom favorite background
         adapter?.onChangeBgButtomFavorite(linha)
+        // Show message
         toast(msg)
     }
 
@@ -99,16 +111,16 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
         presenter?.onClickFavoriteLinha(linha)
     }
 
-    override fun navigateToFragFavorite(linha: LinhaObj) {
-        // Dispara um evento para atualizar a lista
-        EventBus.getDefault().post(FavoritoEvent(linha))
-
-        //val viewPager = activity?.findViewById<ViewPager>(R.id.viewPager)
-        //viewPager?.setCurrentItem(0, true)
+    @Subscribe
+    fun onRefresh(event: FavoriteRemoveEvent) {
+        println("event = [${event.linha.isFavorite}]")
+        presenter?.loadLinhas()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         presenter?.onDestroy()
+        // Cancela os eventos do bus
+        EventBus.getDefault().unregister(this)
     }
 }

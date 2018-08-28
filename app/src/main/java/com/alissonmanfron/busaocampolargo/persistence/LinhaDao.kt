@@ -9,10 +9,10 @@ import android.arch.persistence.room.Query
 interface LinhaDao {
 
     @Query("SELECT * FROM linha")
-    fun gelAll(): List<LinhaObj>
+    fun gelAll(): MutableList<LinhaObj>
 
     @Query("SELECT * FROM linha WHERE is_favorite = 1")
-    fun gelAllFavorites(): List<LinhaObj>
+    fun gelAllFavorites(): MutableList<LinhaObj>
 
     @Insert(onConflict = REPLACE)
     fun insert(linha: LinhaObj)

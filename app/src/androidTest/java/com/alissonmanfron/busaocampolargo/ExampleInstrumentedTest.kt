@@ -6,7 +6,6 @@ import android.support.test.runner.AndroidJUnit4
 import com.alissonmanfron.busaocampolargo.persistence.AppDatabase
 import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,21 +26,47 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         appContext = InstrumentationRegistry.getTargetContext()
         database = AppDatabase.getInstance()
+        database?.linhaDao()?.deleteAll()
     }
 
     @Test
-    fun useAppContext() {
-        assertEquals("com.alissonmanfron.busaocampolargo", appContext?.packageName)
-    }
+    fun insertLinhasTest() {
 
-    @Test
-    fun databaseTest() {
-        val l = LinhaObj(null, 101, "Itaqui", false, arrayListOf("1534375279", "1534375279"),
-                arrayListOf("1534375279", "1534375279"))
+        val linhas = arrayListOf<LinhaObj>()
 
-        database?.linhaDao()?.insert(l)
+        val partenope = LinhaObj(null, 100, "Partênope", false,
+                arrayListOf("08:00", "08:35"),
+                arrayListOf("08:25", "08:55"),
+                arrayListOf("08:25", "08:55"),
+                arrayListOf("08:25", "08:55"),
+                arrayListOf("08:25", "08:55"),
+                arrayListOf("08:25", "08:55"))
 
-        assertNotNull(database?.linhaDao()?.gelAll())
+        val itaqui = LinhaObj(null, 101, "Itaqui", false,
+                arrayListOf("08:00", "08:35"),
+                arrayListOf("08:25", "08:55"),
+                arrayListOf("08:25", "08:55"),
+                arrayListOf("08:25", "08:55"),
+                arrayListOf("08:25", "08:55"),
+                arrayListOf("08:25", "08:55"))
+
+        val populares = LinhaObj(null, 102, "Populares", false,
+                arrayListOf("08:00", "08:35"),
+                arrayListOf("08:25", "08:55"),
+                arrayListOf("08:25", "08:55"),
+                arrayListOf("08:25", "08:55"),
+                arrayListOf("08:25", "08:55"),
+                arrayListOf("08:25", "08:55"))
+
+        linhas.add(partenope)
+        linhas.add(itaqui)
+        linhas.add(populares)
+
+        for (l in linhas) {
+            database?.linhaDao()?.insert(l)
+        }
+
+        assertEquals(linhas.size, database?.linhaDao()?.gelAll()?.size)
     }
 
 

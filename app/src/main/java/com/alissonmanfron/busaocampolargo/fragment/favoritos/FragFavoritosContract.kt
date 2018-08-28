@@ -6,13 +6,17 @@ interface FragFavoritosContract {
 
     interface LinhasView {
 
-        fun setListLinhasObj(linhas: List<LinhaObj>)
+        fun setListLinhasObj(linhas: MutableList<LinhaObj>)
 
         fun setErrorLoadLinhas()
 
         fun showProgressBar()
 
         fun hideProgressBar()
+
+        fun successRemoveFavorite(linha: LinhaObj, msg: String)
+
+        fun errorSetFavorite(msg: String)
 
         fun navigateToLinhaDetail(linha: LinhaObj)
 
@@ -21,10 +25,16 @@ interface FragFavoritosContract {
     interface LinhasInteractor {
 
         interface OnLoadFinishedListener {
-            fun onLoadSuccess(linhas: List<LinhaObj>)
+            fun onLoadSuccess(linhas: MutableList<LinhaObj>)
             fun onLoadError()
         }
         fun loadLinhas(callback: OnLoadFinishedListener)
+
+        interface OnFavoriteFinishedListener {
+            fun onRemoveFavoriteSuccess()
+            fun onFavoriteError()
+        }
+        fun changeFavorite(linha: LinhaObj, callback: OnFavoriteFinishedListener)
 
     }
 

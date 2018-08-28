@@ -8,8 +8,8 @@ import com.alissonmanfron.busaocampolargo.R
 import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
 import kotlinx.android.synthetic.main.item_linhas.view.*
 
-class LinhasFavAdapter(private var linhas: List<LinhaObj>,
-                       val callback: (LinhaObj, Boolean) -> Unit) :
+class LinhasFavAdapter(private var linhas: MutableList<LinhaObj>,
+                       private val callback: (LinhaObj, Boolean) -> Unit) :
         RecyclerView.Adapter<LinhasFavAdapter.LinhasFavViewHolder>() {
 
     override fun getItemCount() = this.linhas.size
@@ -29,6 +29,7 @@ class LinhasFavAdapter(private var linhas: List<LinhaObj>,
         val view = holder.itemView
         with(view) {
             // Atualiza os dados do carro
+            txt_cod_linha.text = linha.cod.toString()
             txt_name_linha.text = linha.name
 
             tg_btn_favorite.setBackgroundResource(if (linha.isFavorite) R.drawable.ic_star_yellow else R.drawable.ic_star_white)
@@ -37,7 +38,7 @@ class LinhasFavAdapter(private var linhas: List<LinhaObj>,
             setOnClickListener { callback(linha, false) }
 
             tg_btn_favorite.setOnClickListener {
-                linha.isFavorite = !linha.isFavorite
+                linha.isFavorite = false
                 callback(linha, true)
             }
         }
@@ -47,6 +48,15 @@ class LinhasFavAdapter(private var linhas: List<LinhaObj>,
         for (l in linhas) {
             if (l.id == linha.id) {
                 l.isFavorite = linha.isFavorite
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+    fun removeLinha(linha: LinhaObj) {
+        for (l in linhas) {
+            if (l.id == linha.id) {
+                linhas.remove(l)
                 notifyDataSetChanged()
             }
         }

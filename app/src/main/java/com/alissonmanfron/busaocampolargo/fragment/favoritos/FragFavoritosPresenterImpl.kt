@@ -10,7 +10,7 @@ class FragFavoritosPresenterImpl(private var linhasFavView: FragFavoritosContrac
         linhasFavView?.showProgressBar()
 
         linhasInteractor.loadLinhas(object : FragFavoritosContract.LinhasInteractor.OnLoadFinishedListener {
-            override fun onLoadSuccess(linhas: List<LinhaObj>) {
+            override fun onLoadSuccess(linhas: MutableList<LinhaObj>) {
                 linhasFavView?.hideProgressBar()
                 linhasFavView?.setListLinhasObj(linhas)
             }
@@ -23,10 +23,19 @@ class FragFavoritosPresenterImpl(private var linhasFavView: FragFavoritosContrac
     }
 
     override fun onClickFavoriteLinha(linha: LinhaObj) {
+        linhasInteractor.changeFavorite(linha, object : FragFavoritosContract.LinhasInteractor.OnFavoriteFinishedListener {
+            override fun onRemoveFavoriteSuccess() {
+                linhasFavView?.successRemoveFavorite(linha, "${linha.name} foi removido dos favoritos!")
+            }
 
+            override fun onFavoriteError() {
+                linhasFavView?.errorSetFavorite("Não foi possível favoritar a linha ${linha.name}!")
+            }
+        })
     }
 
     override fun onClickLinha(linha: LinhaObj) {
+        linhasFavView?.navigateToLinhaDetail(linha)
     }
 
     override fun onDestroy() {

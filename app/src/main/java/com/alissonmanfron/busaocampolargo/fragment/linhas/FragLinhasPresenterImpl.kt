@@ -36,7 +36,6 @@ class FragLinhasPresenterImpl(private var linhasView: FragLinhasContract.LinhasV
                             "${linha.name} foi adicionado ao seus favoritos!"
                         } else
                             "${linha.name} foi removido dos favoritos!")
-                linhasView?.navigateToFragFavorite(linha)
             }
 
             override fun onFavoriteError() {

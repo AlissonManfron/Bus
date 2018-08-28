@@ -13,7 +13,8 @@ import com.alissonmanfron.busaocampolargo.R
 import com.alissonmanfron.busaocampolargo.activity.detail.LinhaDetailActivity
 import com.alissonmanfron.busaocampolargo.adapter.LinhasFavAdapter
 import com.alissonmanfron.busaocampolargo.extensions.toast
-import com.alissonmanfron.busaocampolargo.listener.FavoritoEvent
+import com.alissonmanfron.busaocampolargo.listener.FavoriteAddEvent
+import com.alissonmanfron.busaocampolargo.listener.FavoriteRemoveEvent
 import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
 import kotlinx.android.synthetic.main.fragment_favoritos.*
 import org.greenrobot.eventbus.EventBus
@@ -57,7 +58,7 @@ class FragmentFavoritos : Fragment(), FragFavoritosContract.LinhasView {
         rv_linhas_fav.setHasFixedSize(true)
     }
 
-    override fun setListLinhasObj(linhas: List<LinhaObj>) {
+    override fun setListLinhasObj(linhas: MutableList<LinhaObj>) {
         // Atualiza a lista
         activity?.runOnUiThread({
             rv_linhas_fav.visibility = View.VISIBLE
@@ -80,21 +81,25 @@ class FragmentFavoritos : Fragment(), FragFavoritosContract.LinhasView {
         activity?.runOnUiThread { pbLinhasFav.visibility = View.GONE }
     }
 
-//    override fun successSetFavorite(linha: LinhaObj, msg: String) {
-//        adapter?.onChangeBgButtomFavorite(linha)
-//        toast(msg)
-//    }
-//
-//    override fun errorSetFavorite(msg: String) {
-//        toast(msg)
-//    }
-
     override fun navigateToLinhaDetail(linha: LinhaObj) {
         val intent = Intent(activity, LinhaDetailActivity::class.java)
         val bundle = Bundle()
         bundle.putParcelable("linha", linha)
         intent.putExtra("linhaBundle", bundle)
         startActivity(intent)
+    }
+
+    override fun successRemoveFavorite(linha: LinhaObj, msg: String) {
+        // Show message
+        toast(msg)
+        // Trigger an event to refresh the list
+        EventBus.getDefault().post(FavoriteRemoveEvent(linha))
+        // Remove current Linha
+        adapter?.removeLinha(linha)
+    }
+
+    override fun errorSetFavorite(msg: String) {
+        toast(msg)
     }
 
     fun onClickLinha(linha: LinhaObj) {
@@ -106,11 +111,10 @@ class FragmentFavoritos : Fragment(), FragFavoritosContract.LinhasView {
     }
 
     @Subscribe
-    open fun onRefresh(event: FavoritoEvent) {
+    fun onRefresh(event: FavoriteAddEvent) {
         println("event = [${event.linha.isFavorite}]")
         presenter?.loadLinhas()
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

@@ -20,7 +20,6 @@ interface FragLinhasContract {
 
         fun navigateToLinhaDetail(linha: LinhaObj)
 
-        fun navigateToFragFavorite(linha: LinhaObj)
     }
 
     interface LinhasInteractor {

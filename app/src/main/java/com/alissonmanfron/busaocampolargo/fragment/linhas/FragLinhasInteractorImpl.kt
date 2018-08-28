@@ -44,8 +44,5 @@ class FragLinhasInteractorImpl : FragLinhasContract.LinhasInteractor {
                 }, {
                     callback.onFavoriteError()
                 })
-
     }
-
-
 }

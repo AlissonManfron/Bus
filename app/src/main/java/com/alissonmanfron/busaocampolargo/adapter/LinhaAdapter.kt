@@ -22,13 +22,14 @@ class LinhasAdapter(private var linhas: List<LinhaObj>,
         return LinhasViewHolder(view)
     }
 
-    // Faz o bind para atualizar o valor das views com os dados do Carro
+    // Faz o bind para atualizar o valor das views com os dados da Linha
     override fun onBindViewHolder(holder: LinhasViewHolder, position: Int) {
         // Recupera o objeto carro
         val linha = linhas[position]
         val view = holder.itemView
         with(view) {
-            // Atualiza os dados do carro
+            // Atualiza os dados da linha
+            txt_cod_linha.text = linha.cod.toString()
             txt_name_linha.text = linha.name
 
             tg_btn_favorite.setBackgroundResource(if (linha.isFavorite) R.drawable.ic_star_yellow else R.drawable.ic_star_white)
