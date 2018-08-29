@@ -35,28 +35,31 @@ class ExampleInstrumentedTest {
         val linhas = arrayListOf<LinhaObj>()
 
         val partenope = LinhaObj(null, 100, "Partênope", false,
-                arrayListOf("08:00", "08:35"),
-                arrayListOf("08:25", "08:55"),
-                arrayListOf("08:25", "08:55"),
-                arrayListOf("08:25", "08:55"),
-                arrayListOf("08:25", "08:55"),
-                arrayListOf("08:25", "08:55"))
+                arrayListOf("1514793900", "1514795400"),
+                arrayListOf("1514793900", "1514795400"),
+                arrayListOf("1514793900", "1514795400"),
+                arrayListOf("1514793900", "1514795400"),
+                arrayListOf("1514793900", "1514795400"),
+                arrayListOf("1514793900", "1514795400")
+        )
 
         val itaqui = LinhaObj(null, 101, "Itaqui", false,
-                arrayListOf("08:00", "08:35"),
-                arrayListOf("08:25", "08:55"),
-                arrayListOf("08:25", "08:55"),
-                arrayListOf("08:25", "08:55"),
-                arrayListOf("08:25", "08:55"),
-                arrayListOf("08:25", "08:55"))
+                arrayListOf("1514793900", "1514795400"),
+                arrayListOf("1514793900", "1514795400"),
+                arrayListOf("1514793900", "1514795400"),
+                arrayListOf("1514793900", "1514795400"),
+                arrayListOf("1514793900", "1514795400"),
+                arrayListOf("1514793900", "1514795400")
+        )
 
         val populares = LinhaObj(null, 102, "Populares", false,
-                arrayListOf("08:00", "08:35"),
-                arrayListOf("08:25", "08:55"),
-                arrayListOf("08:25", "08:55"),
-                arrayListOf("08:25", "08:55"),
-                arrayListOf("08:25", "08:55"),
-                arrayListOf("08:25", "08:55"))
+                arrayListOf("1514793900", "1514795400"),
+                arrayListOf("1514793900", "1514795400"),
+                arrayListOf("1514793900", "1514795400"),
+                arrayListOf("1514793900", "1514795400"),
+                arrayListOf("1514793900", "1514795400"),
+                arrayListOf("1514793900", "1514795400")
+        )
 
         linhas.add(partenope)
         linhas.add(itaqui)
@@ -66,7 +69,9 @@ class ExampleInstrumentedTest {
             database?.linhaDao()?.insert(l)
         }
 
-        assertEquals(linhas.size, database?.linhaDao()?.gelAll()?.size)
+        database?.linhaDao()?.gelAll()?.subscribe({
+            assertEquals(linhas.size, it.size)
+        })
     }
 
 

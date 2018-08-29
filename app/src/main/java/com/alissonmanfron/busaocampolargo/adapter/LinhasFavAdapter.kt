@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.alissonmanfron.busaocampolargo.R
+import com.alissonmanfron.busaocampolargo.extensions.toDate
+import com.alissonmanfron.busaocampolargo.extensions.toDateString
 import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
 import kotlinx.android.synthetic.main.item_linhas.view.*
 
@@ -31,6 +33,14 @@ class LinhasFavAdapter(private var linhas: MutableList<LinhaObj>,
             // Atualiza os dados do carro
             txt_cod_linha.text = linha.cod.toString()
             txt_name_linha.text = linha.name
+
+            val dt1 = linha.terminal_dias_uteis[0].toDate() // Todo: Pegar a data do próximo onibus
+            val dt2 = linha.bairro_dias_uteis[1].toDate() // Todo: Pegar a data do próximo onibus
+            //val rs = dt1.between(dt2) // mostra a diferença entre duas datas
+            val dt3 = dt1.toDateString()
+            val dt4 = dt2.toDateString()
+            txt_next_hour_terminal.text = dt3
+            txt_next_hour_bairro.text = dt4
 
             tg_btn_favorite.setBackgroundResource(if (linha.isFavorite) R.drawable.ic_star_yellow else R.drawable.ic_star_white)
 

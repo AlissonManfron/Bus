@@ -2,9 +2,9 @@ package com.alissonmanfron.busaocampolargo.fragment.linhas
 
 import com.alissonmanfron.busaocampolargo.persistence.AppDatabase
 import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
-import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class FragLinhasInteractorImpl : FragLinhasContract.LinhasInteractor {
 
@@ -14,10 +14,10 @@ class FragLinhasInteractorImpl : FragLinhasContract.LinhasInteractor {
         val database = AppDatabase.getInstance()?.linhaDao()
 
         // Load linhas from database
-        Observable.fromCallable({ database?.gelAll() })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+        database?.gelAll()
+                ?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe({
                     if (it != null)
                         callback.onLoadSuccess(it)
                     else
@@ -33,10 +33,10 @@ class FragLinhasInteractorImpl : FragLinhasContract.LinhasInteractor {
         val database = AppDatabase.getInstance()?.linhaDao()
 
         // Simulate long request
-        Observable.fromCallable({ database?.updateFavorite(linha.cod, linha.isFavorite) })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+       Observable.fromCallable { database?.updateFavorite(linha.cod, linha.isFavorite) }
+                ?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe({
                     if (it != null)
                         callback.onFavoriteSuccess()
                     else

@@ -3,7 +3,7 @@ package com.alissonmanfron.busaocampolargo.fragment.linhas
 import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
 
 class FragLinhasPresenterImpl(private var linhasView: FragLinhasContract.LinhasView?,
-                              private var linhasInteractor: FragLinhasInteractorImpl) :
+                              private var linhasInteractor: FragLinhasContract.LinhasInteractor) :
         FragLinhasContract.LinhasPresenter {
 
     override fun loadLinhas() {

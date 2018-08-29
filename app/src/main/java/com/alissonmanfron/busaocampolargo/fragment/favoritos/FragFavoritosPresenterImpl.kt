@@ -3,7 +3,7 @@ package com.alissonmanfron.busaocampolargo.fragment.favoritos
 import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
 
 class FragFavoritosPresenterImpl(private var linhasFavView: FragFavoritosContract.LinhasView?,
-                                 private var linhasInteractor: FragFavoritosInteractorImpl) :
+                                 private var linhasInteractor: FragFavoritosContract.LinhasInteractor) :
         FragFavoritosContract.LinhasPresenter {
 
     override fun loadLinhas() {
@@ -23,7 +23,7 @@ class FragFavoritosPresenterImpl(private var linhasFavView: FragFavoritosContrac
     }
 
     override fun onClickFavoriteLinha(linha: LinhaObj) {
-        linhasInteractor.changeFavorite(linha, object : FragFavoritosContract.LinhasInteractor.OnFavoriteFinishedListener {
+        linhasInteractor.changeFavorite(linha, object : FragFavoritosContract.LinhasInteractor.OnRemoveFavoriteFinishedListener {
             override fun onRemoveFavoriteSuccess() {
                 linhasFavView?.successRemoveFavorite(linha, "${linha.name} foi removido dos favoritos!")
             }

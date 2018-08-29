@@ -30,11 +30,11 @@ interface FragFavoritosContract {
         }
         fun loadLinhas(callback: OnLoadFinishedListener)
 
-        interface OnFavoriteFinishedListener {
+        interface OnRemoveFavoriteFinishedListener {
             fun onRemoveFavoriteSuccess()
             fun onFavoriteError()
         }
-        fun changeFavorite(linha: LinhaObj, callback: OnFavoriteFinishedListener)
+        fun changeFavorite(linha: LinhaObj, callback: OnRemoveFavoriteFinishedListener)
 
     }
 

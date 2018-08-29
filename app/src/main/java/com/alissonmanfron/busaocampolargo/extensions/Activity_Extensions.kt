@@ -10,6 +10,12 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import org.joda.time.DateTime
+import org.joda.time.Period
+import org.joda.time.format.PeriodFormatterBuilder
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 // findViewById + setOnClickListener
 fun AppCompatActivity.onClick(@IdRes viewId: Int, onClick: (v: android.view.View?) -> Unit) {
@@ -46,4 +52,27 @@ fun AppCompatActivity.addFragment(@IdRes layoutId: Int, fragment: Fragment) {
     val ft = supportFragmentManager.beginTransaction()
     ft.add(layoutId, fragment)
     ft.commit()
+}
+
+fun DateTime.between(date: DateTime) : String {
+    val period = Period(this, date)
+
+    val formatter = PeriodFormatterBuilder()
+            .appendHours().appendSuffix(" hora, ", " horas, ")
+            .appendMinutes().appendSuffix(" minuto, ", " minutos, ")
+            .appendSeconds().appendSuffix(" segundo, ", " segundos, ")
+            .printZeroNever()
+            .toFormatter()
+
+     return formatter.print(period)
+}
+
+fun String.toDate() : DateTime {
+    return DateTime(Date(this.toLong()  * 1000))
+}
+
+fun DateTime.toDateString() : String {
+    val formato = SimpleDateFormat("HH:mm")
+    val dt = this.plusHours(2).toDate()
+    return formato.format(dt)
 }

@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.alissonmanfron.busaocampolargo.fragment.favoritos.FragmentFavoritos
 import com.alissonmanfron.busaocampolargo.fragment.linhas.FragmentLinhas
+import com.alissonmanfron.busaocampolargo.fragment.valores.ValoresFragment
 
 class TabAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
@@ -14,7 +15,7 @@ class TabAdapter(private val context: Context, fm: FragmentManager) : FragmentPa
         when (position) {
             0 -> return FragmentFavoritos()
             1 -> return FragmentLinhas()
-            2 -> return FragmentFavoritos()
+            2 -> return ValoresFragment()
             else -> return FragmentFavoritos()
         }
     }
@@ -24,7 +25,7 @@ class TabAdapter(private val context: Context, fm: FragmentManager) : FragmentPa
         when (position) {
             0 -> return "Favoritos"
             1 -> return "Linhas"
-            2 -> return "Tab 3"
+            2 -> return "Valores"
             else -> return ""
         }
     }
