@@ -15,7 +15,7 @@ import com.alissonmanfron.busaocampolargo.adapter.LinhasFavAdapter
 import com.alissonmanfron.busaocampolargo.extensions.toast
 import com.alissonmanfron.busaocampolargo.listener.FavoriteAddEvent
 import com.alissonmanfron.busaocampolargo.listener.FavoriteRemoveEvent
-import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
+import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
 import kotlinx.android.synthetic.main.fragment_favoritos.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

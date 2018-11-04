@@ -1,6 +1,6 @@
 package com.alissonmanfron.busaocampolargo.fragment.linhas
 
-import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
+import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
 
 interface FragLinhasContract {
 

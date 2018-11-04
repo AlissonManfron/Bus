@@ -13,8 +13,10 @@ import android.widget.Toast
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.joda.time.format.PeriodFormatterBuilder
+import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 // findViewById + setOnClickListener
@@ -75,4 +77,19 @@ fun DateTime.toDateString() : String {
     val formato = SimpleDateFormat("HH:mm")
     val dt = this.plusHours(2).toDate()
     return formato.format(dt)
+}
+
+fun String.stringToTimeStampList() : ArrayList<String> {
+    val hours = this.replace("\\s".toRegex(), "-").split("-")
+
+    val list = arrayListOf<String>()
+
+    for (h in hours) {
+        val hour = h.split(":")
+        val dt = DateTime().withTime(hour[0].toInt(), hour[1].toInt(), 0, 0)
+        val ts = Timestamp(dt.millis)
+        list.add(ts.time.toString())
+    }
+
+    return list
 }

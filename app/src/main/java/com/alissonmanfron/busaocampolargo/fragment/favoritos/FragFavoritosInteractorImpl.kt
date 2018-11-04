@@ -1,7 +1,7 @@
 package com.alissonmanfron.busaocampolargo.fragment.favoritos
 
 import com.alissonmanfron.busaocampolargo.persistence.AppDatabase
-import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
+import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

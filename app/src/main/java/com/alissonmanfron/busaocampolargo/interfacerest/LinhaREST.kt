@@ -1,6 +1,6 @@
 package com.alissonmanfron.busaocampolargo.interfacerest
 
-import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
+import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

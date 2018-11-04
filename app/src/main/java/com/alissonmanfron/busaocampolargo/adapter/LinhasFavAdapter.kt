@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.alissonmanfron.busaocampolargo.R
 import com.alissonmanfron.busaocampolargo.extensions.toDate
 import com.alissonmanfron.busaocampolargo.extensions.toDateString
-import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
+import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
 import kotlinx.android.synthetic.main.item_linhas.view.*
 
 class LinhasFavAdapter(private var linhas: MutableList<LinhaObj>,

@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.alissonmanfron.busaocampolargo.R
 import com.alissonmanfron.busaocampolargo.activity.base.BaseActivity
 import com.alissonmanfron.busaocampolargo.extensions.setupToolbar
-import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
+import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
 
 class LinhaDetailActivity : BaseActivity() {
     private val linha by lazy { intent.getBundleExtra("linhaBundle").getParcelable<LinhaObj>("linha") }

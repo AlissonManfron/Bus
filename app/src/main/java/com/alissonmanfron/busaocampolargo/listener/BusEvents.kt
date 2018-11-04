@@ -1,6 +1,6 @@
 package com.alissonmanfron.busaocampolargo.listener
 
-import com.alissonmanfron.busaocampolargo.persistence.LinhaObj
+import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
 
 data class FavoriteAddEvent(val linha: LinhaObj)
 

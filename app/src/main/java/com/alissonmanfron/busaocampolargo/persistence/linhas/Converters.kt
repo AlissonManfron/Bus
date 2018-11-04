@@ -1,4 +1,4 @@
-package com.alissonmanfron.busaocampolargo.persistence
+package com.alissonmanfron.busaocampolargo.persistence.linhas
 
 import android.arch.persistence.room.TypeConverter
 

@@ -1,11 +1,10 @@
-package com.alissonmanfron.busaocampolargo.persistence
+package com.alissonmanfron.busaocampolargo.persistence.linhas
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import android.arch.persistence.room.Query
 import io.reactivex.Flowable
-import io.reactivex.Single
 
 @Dao
 interface LinhaDao {

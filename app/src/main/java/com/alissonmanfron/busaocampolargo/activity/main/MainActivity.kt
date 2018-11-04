@@ -4,8 +4,6 @@ import android.os.Bundle
 import com.alissonmanfron.busaocampolargo.R
 import com.alissonmanfron.busaocampolargo.activity.base.BaseActivity
 import com.alissonmanfron.busaocampolargo.extensions.setupToolbar
-import com.alissonmanfron.busaocampolargo.extensions.toast
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 

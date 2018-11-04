@@ -4,8 +4,10 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
-import android.content.Context
 import com.alissonmanfron.busaocampolargo.MyApplication
+import com.alissonmanfron.busaocampolargo.persistence.linhas.Converters
+import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaDao
+import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
 
 @Database(entities = [(LinhaObj::class)], version = 1)
 @TypeConverters(Converters::class)
