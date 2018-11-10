@@ -3,6 +3,7 @@ package com.alissonmanfron.busaocampolargo.activity.main
 import android.os.Bundle
 import com.alissonmanfron.busaocampolargo.R
 import com.alissonmanfron.busaocampolargo.activity.base.BaseActivity
+import com.alissonmanfron.busaocampolargo.enuns.Screen
 import com.alissonmanfron.busaocampolargo.extensions.setupToolbar
 
 class MainActivity : BaseActivity() {
@@ -15,6 +16,7 @@ class MainActivity : BaseActivity() {
         setupToolbar(R.id.toolbar)
 
         // Config View Pager Tabs
-        setupViewPagerTabs()
+        setupViewPagerTabsMain()
+
     }
 }
