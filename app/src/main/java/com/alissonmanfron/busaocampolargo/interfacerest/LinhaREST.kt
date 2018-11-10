@@ -1,16 +1,12 @@
 package com.alissonmanfron.busaocampolargo.interfacerest
 
-import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
-import retrofit2.Call
+import com.alissonmanfron.busaocampolargo.model.Linha
+import io.reactivex.Flowable
 import retrofit2.http.GET
-import retrofit2.http.Path
 
 interface LinhaREST {
 
-    @GET()
-    fun getLinhas(): Call<List<LinhaObj>>
-
-    @GET("{id}")
-    fun getLinhaById(@Path("id") id: Long): Call<List<LinhaObj>>
+    @GET("api/master/data.json")
+    fun getLinhas(): Flowable<List<Linha>>
 
 }

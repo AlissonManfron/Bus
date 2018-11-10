@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import com.alissonmanfron.busaocampolargo.R
 import com.alissonmanfron.busaocampolargo.extensions.toDate
 import com.alissonmanfron.busaocampolargo.extensions.toDateString
-import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
+import com.alissonmanfron.busaocampolargo.model.Linha
 import kotlinx.android.synthetic.main.item_linhas.view.*
 
-class LinhasAdapter(private var linhas: List<LinhaObj>,
-                    private val callback: (LinhaObj, Boolean) -> Unit) :
+class LinhasAdapter(private var linhas: List<Linha>,
+                    private val callback: (Linha, Boolean) -> Unit) :
         RecyclerView.Adapter<LinhasAdapter.LinhasViewHolder>() {
 
     override fun getItemCount() = this.linhas.size
@@ -34,8 +34,8 @@ class LinhasAdapter(private var linhas: List<LinhaObj>,
             txt_cod_linha.text = linha.cod.toString()
             txt_name_linha.text = linha.name
 
-            val dt1 = linha.bairro_dias_uteis[0].toDate() // Todo: Pegar a data do próximo onibus
-            val dt2 = linha.bairro_dias_uteis[1].toDate() // Todo: Pegar a data do próximo onibus
+            val dt1 = linha.terminal_dias_uteis[0].toDate() // Todo: Pegar a data do próximo onibus
+            val dt2 = linha.bairro_dias_uteis[0].toDate() // Todo: Pegar a data do próximo onibus
             //val rs = dt1.between(dt2) // mostra a diferença entre duas datas
             val dt3 = dt1.toDateString()
             val dt4 = dt2.toDateString()
@@ -54,9 +54,9 @@ class LinhasAdapter(private var linhas: List<LinhaObj>,
         }
     }
 
-    fun onChangeBgButtomFavorite(linha: LinhaObj) {
+    fun onChangeBgButtomFavorite(linha: Linha) {
         for (l in linhas) {
-            if (l.id == linha.id) {
+            if (l.cod == linha.cod) {
                 l.isFavorite = linha.isFavorite
                 notifyDataSetChanged()
             }

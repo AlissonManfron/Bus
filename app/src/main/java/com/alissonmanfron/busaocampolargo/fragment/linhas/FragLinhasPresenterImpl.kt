@@ -1,5 +1,6 @@
 package com.alissonmanfron.busaocampolargo.fragment.linhas
 
+import com.alissonmanfron.busaocampolargo.model.Linha
 import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
 
 class FragLinhasPresenterImpl(private var linhasView: FragLinhasContract.LinhasView?,
@@ -11,7 +12,7 @@ class FragLinhasPresenterImpl(private var linhasView: FragLinhasContract.LinhasV
         linhasView?.showProgressBar()
 
         linhasInteractor.loadLinhas(object : FragLinhasContract.LinhasInteractor.OnLoadFinishedListener {
-            override fun onLoadSuccess(linhas: List<LinhaObj>) {
+            override fun onLoadSuccess(linhas: List<Linha>) {
                 linhasView?.hideProgressBar()
                 linhasView?.setListLinhasObj(linhas)
             }
@@ -23,11 +24,11 @@ class FragLinhasPresenterImpl(private var linhasView: FragLinhasContract.LinhasV
         })
     }
 
-    override fun onClickLinha(linha: LinhaObj) {
+    override fun onClickLinha(linha: Linha) {
         linhasView?.navigateToLinhaDetail(linha)
     }
 
-    override fun onClickFavoriteLinha(linha: LinhaObj) {
+    override fun onClickFavoriteLinha(linha: Linha) {
 
         linhasInteractor.changeFavorite(linha, object : FragLinhasContract.LinhasInteractor.OnFavoriteFinishedListener {
             override fun onFavoriteSuccess() {

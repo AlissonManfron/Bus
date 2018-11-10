@@ -1,5 +1,6 @@
 package com.alissonmanfron.busaocampolargo.fragment.favoritos
 
+import com.alissonmanfron.busaocampolargo.model.Linha
 import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
 
 class FragFavoritosPresenterImpl(private var linhasFavView: FragFavoritosContract.LinhasView?,
@@ -10,7 +11,7 @@ class FragFavoritosPresenterImpl(private var linhasFavView: FragFavoritosContrac
         linhasFavView?.showProgressBar()
 
         linhasInteractor.loadLinhas(object : FragFavoritosContract.LinhasInteractor.OnLoadFinishedListener {
-            override fun onLoadSuccess(linhas: MutableList<LinhaObj>) {
+            override fun onLoadSuccess(linhas: List<Linha>) {
                 linhasFavView?.hideProgressBar()
                 linhasFavView?.setListLinhasObj(linhas)
             }
@@ -22,7 +23,7 @@ class FragFavoritosPresenterImpl(private var linhasFavView: FragFavoritosContrac
         })
     }
 
-    override fun onClickFavoriteLinha(linha: LinhaObj) {
+    override fun onClickFavoriteLinha(linha: Linha) {
         linhasInteractor.changeFavorite(linha, object : FragFavoritosContract.LinhasInteractor.OnRemoveFavoriteFinishedListener {
             override fun onRemoveFavoriteSuccess() {
                 linhasFavView?.successRemoveFavorite(linha, "${linha.name} foi removido dos favoritos!")
@@ -34,7 +35,7 @@ class FragFavoritosPresenterImpl(private var linhasFavView: FragFavoritosContrac
         })
     }
 
-    override fun onClickLinha(linha: LinhaObj) {
+    override fun onClickLinha(linha: Linha) {
         linhasFavView?.navigateToLinhaDetail(linha)
     }
 

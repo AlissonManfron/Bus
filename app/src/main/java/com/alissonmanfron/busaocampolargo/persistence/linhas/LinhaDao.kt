@@ -18,6 +18,9 @@ interface LinhaDao {
     @Insert(onConflict = REPLACE)
     fun insert(linha: LinhaObj)
 
+    @Insert(onConflict = REPLACE)
+    fun insertAll(linha: List<LinhaObj>)
+
     @Query("DELETE from linha")
     fun deleteAll()
 

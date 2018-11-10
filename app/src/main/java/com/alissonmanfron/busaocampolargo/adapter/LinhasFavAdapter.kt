@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import com.alissonmanfron.busaocampolargo.R
 import com.alissonmanfron.busaocampolargo.extensions.toDate
 import com.alissonmanfron.busaocampolargo.extensions.toDateString
-import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
+import com.alissonmanfron.busaocampolargo.model.Linha
 import kotlinx.android.synthetic.main.item_linhas.view.*
 
-class LinhasFavAdapter(private var linhas: MutableList<LinhaObj>,
-                       private val callback: (LinhaObj, Boolean) -> Unit) :
+class LinhasFavAdapter(private var linhas: List<Linha>,
+                       private val callback: (Linha, Boolean) -> Unit) :
         RecyclerView.Adapter<LinhasFavAdapter.LinhasFavViewHolder>() {
 
     override fun getItemCount() = this.linhas.size
@@ -54,19 +54,19 @@ class LinhasFavAdapter(private var linhas: MutableList<LinhaObj>,
         }
     }
 
-    fun onChangeBgButtomFavorite(linha: LinhaObj) {
+    fun onChangeBgButtomFavorite(linha: Linha) {
         for (l in linhas) {
-            if (l.id == linha.id) {
+            if (l.cod == linha.cod) {
                 l.isFavorite = linha.isFavorite
                 notifyDataSetChanged()
             }
         }
     }
 
-    fun removeLinha(linha: LinhaObj) {
+    fun removeLinha(linha: Linha) {
         for (l in linhas) {
-            if (l.id == linha.id) {
-                linhas.remove(l)
+            if (l.cod == linha.cod) {
+                //linhas.remove(l)
                 notifyDataSetChanged()
             }
         }

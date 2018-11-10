@@ -1,12 +1,12 @@
 package com.alissonmanfron.busaocampolargo.fragment.favoritos
 
-import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
+import com.alissonmanfron.busaocampolargo.model.Linha
 
 interface FragFavoritosContract {
 
     interface LinhasView {
 
-        fun setListLinhasObj(linhas: MutableList<LinhaObj>)
+        fun setListLinhasObj(linhas: List<Linha>)
 
         fun setErrorLoadLinhas()
 
@@ -14,18 +14,18 @@ interface FragFavoritosContract {
 
         fun hideProgressBar()
 
-        fun successRemoveFavorite(linha: LinhaObj, msg: String)
+        fun successRemoveFavorite(linha: Linha, msg: String)
 
         fun errorSetFavorite(msg: String)
 
-        fun navigateToLinhaDetail(linha: LinhaObj)
+        fun navigateToLinhaDetail(linha: Linha)
 
     }
 
     interface LinhasInteractor {
 
         interface OnLoadFinishedListener {
-            fun onLoadSuccess(linhas: MutableList<LinhaObj>)
+            fun onLoadSuccess(linhas: List<Linha>)
             fun onLoadError()
         }
         fun loadLinhas(callback: OnLoadFinishedListener)
@@ -34,7 +34,7 @@ interface FragFavoritosContract {
             fun onRemoveFavoriteSuccess()
             fun onFavoriteError()
         }
-        fun changeFavorite(linha: LinhaObj, callback: OnRemoveFavoriteFinishedListener)
+        fun changeFavorite(linha: Linha, callback: OnRemoveFavoriteFinishedListener)
 
     }
 
@@ -44,9 +44,9 @@ interface FragFavoritosContract {
 
         fun onDestroy()
 
-        fun onClickLinha(linha: LinhaObj)
+        fun onClickLinha(linha: Linha)
 
-        fun onClickFavoriteLinha(linha: LinhaObj)
+        fun onClickFavoriteLinha(linha: Linha)
 
     }
 }

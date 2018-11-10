@@ -15,6 +15,7 @@ import com.alissonmanfron.busaocampolargo.adapter.LinhasAdapter
 import com.alissonmanfron.busaocampolargo.extensions.toast
 import com.alissonmanfron.busaocampolargo.listener.FavoriteAddEvent
 import com.alissonmanfron.busaocampolargo.listener.FavoriteRemoveEvent
+import com.alissonmanfron.busaocampolargo.model.Linha
 import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
 import kotlinx.android.synthetic.main.fragment_linhas.*
 import org.greenrobot.eventbus.EventBus
@@ -59,15 +60,15 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
         rv_linhas.setHasFixedSize(true)
     }
 
-    override fun setListLinhasObj(linhas: List<LinhaObj>) {
+    override fun setListLinhasObj(linhas: List<Linha>) {
         // Atualiza a lista
-        activity?.runOnUiThread({
+        activity?.runOnUiThread {
             rv_linhas.visibility = View.VISIBLE
-            adapter = LinhasAdapter(linhas) { linha: LinhaObj, clickFavorite: Boolean ->
+            adapter = LinhasAdapter(linhas) { linha: Linha, clickFavorite: Boolean ->
                 if (clickFavorite) onClickFavoriteLinha(linha) else onClickLinha(linha)
             }
             rv_linhas.adapter = adapter
-        })
+        }
     }
 
     override fun showProgressBar() {
@@ -78,7 +79,7 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
         activity?.runOnUiThread { pbLinhas.visibility = View.GONE }
     }
 
-    override fun successSetFavorite(linha: LinhaObj, msg: String) {
+    override fun successSetFavorite(linha: Linha, msg: String) {
         // Trigger an event to refresh the list
         EventBus.getDefault().post(FavoriteAddEvent(linha))
         // Update buttom favorite background
@@ -91,11 +92,11 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
         toast(msg)
     }
 
-    override fun navigateToLinhaDetail(linha: LinhaObj) {
+    override fun navigateToLinhaDetail(linha: Linha) {
         val intent = Intent(activity, LinhaDetailActivity::class.java)
-        val bundle = Bundle()
-        bundle.putParcelable("linha", linha)
-        intent.putExtra("linhaBundle", bundle)
+        //val bundle = Bundle()
+        //bundle.putParcelable("linha", linha)
+        //intent.putExtra("linhaBundle", bundle)
         startActivity(intent)
     }
 
@@ -103,11 +104,11 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
         toast("Ocorreu um erro ao carregar as listas. Tente novamente!")
     }
 
-    fun onClickLinha(linha: LinhaObj) {
+    fun onClickLinha(linha: Linha) {
         presenter?.onClickLinha(linha)
     }
 
-    fun onClickFavoriteLinha(linha: LinhaObj) {
+    fun onClickFavoriteLinha(linha: Linha) {
         presenter?.onClickFavoriteLinha(linha)
     }
 
