@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import com.alissonmanfron.busaocampolargo.R
 import com.alissonmanfron.busaocampolargo.extensions.toDate
 import com.alissonmanfron.busaocampolargo.extensions.toDateString
@@ -12,7 +14,15 @@ import kotlinx.android.synthetic.main.item_linhas.view.*
 
 class LinhasAdapter(private var linhas: List<Linha>,
                     private val callback: (Linha, Boolean) -> Unit) :
-        RecyclerView.Adapter<LinhasAdapter.LinhasViewHolder>() {
+        RecyclerView.Adapter<LinhasAdapter.LinhasViewHolder>(), Filterable {
+
+
+    private var linhasCopy: List<Linha> = linhas
+    private var itemFilter = ItemFilter()
+
+    override fun getFilter(): Filter {
+        return itemFilter
+    }
 
     override fun getItemCount() = this.linhas.size
 
@@ -61,6 +71,50 @@ class LinhasAdapter(private var linhas: List<Linha>,
                 notifyDataSetChanged()
             }
         }
+    }
+
+    private inner class ItemFilter : Filter() {
+        override fun performFiltering(constraint: CharSequence): FilterResults {
+            val filterResults = Filter.FilterResults()
+
+
+            if (constraint.isNotEmpty()) {
+                //CHANGE TO UPPER
+                val string = constraint.toString().toUpperCase()
+
+                //HOLD FILTERS WE FIND
+                val foundFilters = ArrayList<Linha>()
+
+                //ITERATE CURRENT LIST
+                for (user in linhas) {
+                    //SEARCH
+                    if (user.name.toUpperCase().contains(string)) {
+                        //ADD IF FOUND
+                        foundFilters.add(user)
+                    }
+                }
+
+                //SET RESULTS TO FILTER LIST
+                filterResults.count = foundFilters.size
+                filterResults.values = foundFilters
+            } else {
+                //NO ITEM FOUND.LIST REMAINS INTACT
+                filterResults.count = filterResults.count
+                filterResults.values = linhasCopy
+            }
+
+            //RETURN RESULTS
+            return filterResults
+        }
+
+        override fun publishResults(constraint: CharSequence, results: FilterResults) {
+            setLinhas(results.values as List<Linha>)
+            notifyDataSetChanged()
+        }
+    }
+
+    private fun setLinhas(list: List<Linha>) {
+        this.linhas = list
     }
 
     // ViewHolder fica vazio pois usamos o import do Android Kotlin Extensions

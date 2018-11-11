@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import com.alissonmanfron.busaocampolargo.R
@@ -19,6 +21,9 @@ import com.alissonmanfron.busaocampolargo.model.Linha
 import kotlinx.android.synthetic.main.fragment_linhas.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import android.view.MenuInflater
+
+
 
 class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
 
@@ -30,6 +35,9 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
         super.onCreate(savedInstanceState)
         // Registra para receber eventos do bus
         EventBus.getDefault().register(this)
+
+
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -118,6 +126,27 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
     fun onRefresh(event: FavoriteRemoveEvent) {
         println("event = [${event.linha.isFavorite}]")
         presenter?.loadLinhas()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater!!.inflate(R.menu.menu_frag_linhas, menu)
+
+        val mSearch = menu?.findItem(R.id.action_search)
+
+        val mSearchView = mSearch?.actionView as SearchView
+        mSearchView.queryHint = "Search"
+
+        mSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                adapter?.filter?.filter(newText)
+                return true
+            }
+        })
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onDestroy() {
