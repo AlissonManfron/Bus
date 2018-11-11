@@ -1,7 +1,6 @@
 package com.alissonmanfron.busaocampolargo.fragment.favoritos
 
 import com.alissonmanfron.busaocampolargo.model.Linha
-import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
 
 class FragFavoritosPresenterImpl(private var linhasFavView: FragFavoritosContract.LinhasView?,
                                  private var linhasInteractor: FragFavoritosContract.LinhasInteractor) :

@@ -1,17 +1,21 @@
 package com.alissonmanfron.busaocampolargo.fragment.linhas
 
 import com.alissonmanfron.busaocampolargo.model.Linha
-import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
 
 class FragLinhasPresenterImpl(private var linhasView: FragLinhasContract.LinhasView?,
-                              private var linhasInteractor: FragLinhasContract.LinhasInteractor) :
+                              private var linhasInteractor: FragLinhasContract.LinhasInteractor?) :
         FragLinhasContract.LinhasPresenter {
+
+
+    override fun loadVersion() {
+
+    }
 
     override fun loadLinhas() {
 
         linhasView?.showProgressBar()
 
-        linhasInteractor.loadLinhas(object : FragLinhasContract.LinhasInteractor.OnLoadFinishedListener {
+        linhasInteractor?.loadLinhas(object : FragLinhasContract.LinhasInteractor.OnLoadFinishedListener {
             override fun onLoadSuccess(linhas: List<Linha>) {
                 linhasView?.hideProgressBar()
                 linhasView?.setListLinhasObj(linhas)
@@ -30,7 +34,7 @@ class FragLinhasPresenterImpl(private var linhasView: FragLinhasContract.LinhasV
 
     override fun onClickFavoriteLinha(linha: Linha) {
 
-        linhasInteractor.changeFavorite(linha, object : FragLinhasContract.LinhasInteractor.OnFavoriteFinishedListener {
+        linhasInteractor?.changeFavorite(linha, object : FragLinhasContract.LinhasInteractor.OnFavoriteFinishedListener {
             override fun onFavoriteSuccess() {
                 linhasView?.successSetFavorite(linha,
                         if (linha.isFavorite) {
@@ -46,6 +50,7 @@ class FragLinhasPresenterImpl(private var linhasView: FragLinhasContract.LinhasV
     }
 
     override fun onDestroy() {
+        linhasInteractor = null
         linhasView = null
     }
 

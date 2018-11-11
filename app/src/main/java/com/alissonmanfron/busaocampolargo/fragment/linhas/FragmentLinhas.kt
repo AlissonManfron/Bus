@@ -16,7 +16,6 @@ import com.alissonmanfron.busaocampolargo.extensions.toast
 import com.alissonmanfron.busaocampolargo.listener.FavoriteAddEvent
 import com.alissonmanfron.busaocampolargo.listener.FavoriteRemoveEvent
 import com.alissonmanfron.busaocampolargo.model.Linha
-import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
 import kotlinx.android.synthetic.main.fragment_linhas.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -48,6 +47,9 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
 
         // Get instance presenter
         presenter = FragLinhasPresenterImpl(this, FragLinhasInteractorImpl())
+
+        // Load version
+        presenter?.loadVersion()
 
         // Get Linhas
         presenter?.loadLinhas()
@@ -94,9 +96,9 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
 
     override fun navigateToLinhaDetail(linha: Linha) {
         val intent = Intent(activity, LinhaDetailActivity::class.java)
-        //val bundle = Bundle()
-        //bundle.putParcelable("linha", linha)
-        //intent.putExtra("linhaBundle", bundle)
+        val bundle = Bundle()
+        bundle.putParcelable("linha", linha)
+        intent.putExtra("linhaBundle", bundle)
         startActivity(intent)
     }
 

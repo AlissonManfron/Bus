@@ -4,8 +4,8 @@ import android.content.Context
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.alissonmanfron.busaocampolargo.extensions.stringToTimeStampList
+import com.alissonmanfron.busaocampolargo.model.Linha
 import com.alissonmanfron.busaocampolargo.persistence.AppDatabase
-import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
 import org.joda.time.DateTime
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -58,9 +58,9 @@ class ExampleInstrumentedTest {
     @Test
     fun insertLinhasTest() {
 
-        val linhas = arrayListOf<LinhaObj>()
+        val linhas = arrayListOf<Linha>()
 
-        val partenope = LinhaObj(null, 100, "Partênope", false,
+        val partenope = Linha(null, 100, "Partênope", false,
                 arrayListOf("1514793900", "1514795400"),
                 arrayListOf("1514793900", "1514795400"),
                 arrayListOf("1514793900", "1514795400"),
@@ -69,7 +69,7 @@ class ExampleInstrumentedTest {
                 arrayListOf("1514793900", "1514795400")
         )
 
-        val itaqui = LinhaObj(null, 101, "Itaqui", false,
+        val itaqui = Linha(null, 101, "Itaqui", false,
                 arrayListOf("1514793900", "1514795400"),
                 arrayListOf("1514793900", "1514795400"),
                 arrayListOf("1514793900", "1514795400"),
@@ -78,7 +78,7 @@ class ExampleInstrumentedTest {
                 arrayListOf("1514793900", "1514795400")
         )
 
-        val populares = LinhaObj(null, 102, "Populares", false,
+        val populares = Linha(null, 102, "Populares", false,
                 arrayListOf("1514793900", "1514795400"),
                 arrayListOf("1514793900", "1514795400"),
                 arrayListOf("1514793900", "1514795400"),

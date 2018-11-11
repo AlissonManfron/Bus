@@ -2,8 +2,6 @@ package com.alissonmanfron.busaocampolargo.fragment.favoritos
 
 import com.alissonmanfron.busaocampolargo.model.Linha
 import com.alissonmanfron.busaocampolargo.persistence.AppDatabase
-import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaObj
-import com.alissonmanfron.busaocampolargo.service.LinhaService
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -17,33 +15,16 @@ class FragFavoritosInteractorImpl : FragFavoritosContract.LinhasInteractor {
         // Get instance db
         val database = AppDatabase.getInstance()?.linhaDao()
 
-        val service = LinhaService()
-        val subs = service.getLinhas()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    if (it != null)
-                        callback.onLoadSuccess(it)
-                    //database.insertAll(it)
-                    else
-                        callback.onLoadError()
-                }, {
-                    callback.onLoadError()
-                })
-
-//        // Get instance db
-//        val database = AppDatabase.getInstance()?.linhaDao()
-//
-//        // Simulate long request
-//        database?.gelAllFavorites()?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
-//            if (it != null) {
-//                callback.onLoadSuccess(it)
-//            } else {
-//                callback.onLoadError()
-//            }
-//        }, {
-//            callback.onLoadError()
-//        })
+        // Simulate long request
+        val subs = database?.gelAllFavorites()?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+            if (it != null) {
+                callback.onLoadSuccess(it)
+            } else {
+                callback.onLoadError()
+            }
+        }, {
+            callback.onLoadError()
+        })
     }
 
     override fun changeFavorite(linha: Linha, callback: FragFavoritosContract.LinhasInteractor.OnRemoveFavoriteFinishedListener) {
@@ -51,7 +32,7 @@ class FragFavoritosInteractorImpl : FragFavoritosContract.LinhasInteractor {
         val database = AppDatabase.getInstance()?.linhaDao()
 
         // Simulate long request
-        Observable.fromCallable { database?.updateFavorite(linha.cod, linha.isFavorite) }
+        val subs = Observable.fromCallable { database?.updateFavorite(linha.cod, linha.isFavorite) }
                 ?.subscribeOn(Schedulers.io())
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.subscribe({
