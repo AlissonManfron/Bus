@@ -3,6 +3,7 @@ package com.alissonmanfron.busaocampolargo.fragment.linhas
 import com.alissonmanfron.busaocampolargo.model.Linha
 import com.alissonmanfron.busaocampolargo.persistence.AppDatabase
 import com.alissonmanfron.busaocampolargo.persistence.linhas.LinhaDao
+import com.alissonmanfron.busaocampolargo.prefs.Prefs
 import com.alissonmanfron.busaocampolargo.service.LinhaService
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,10 +16,36 @@ class FragLinhasInteractorImpl : FragLinhasContract.LinhasInteractor {
     // Get instance db
     init { database = AppDatabase.getInstance()?.linhaDao() }
 
+
+    override fun loadVersion(callback: FragLinhasContract.LinhasInteractor.OnVersionFinishedListener) {
+
+    }
+
     override fun loadLinhas(callback: FragLinhasContract.LinhasInteractor.OnLoadFinishedListener) {
 
+        val service = LinhaService()
+        val subs = service.getVersion()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ it ->
+                    if (it != null) {
+                        val cod = Prefs.versionCod
+                        if (cod != it.cod) {
+                            Prefs.versionCod = it.cod
+                            fetchLinhas(callback)
+                        } else {
+                            fetchLocalLinhas(callback)
+                        }
+                    } else
+                        callback.onLoadError()
+                }, {
+                    callback.onLoadError()
+                })
+    }
+
+    private fun fetchLocalLinhas(callback: FragLinhasContract.LinhasInteractor.OnLoadFinishedListener) {
         // Load linhas from database
-        val subs = database?.gelAll()
+        val subs2 = database?.gelAll()
                 ?.subscribeOn(Schedulers.io())
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.subscribe({
@@ -39,18 +66,23 @@ class FragLinhasInteractorImpl : FragLinhasContract.LinhasInteractor {
                 .subscribe({ it ->
                     if (it != null) {
                         val linhas = it
-                        for (l in linhas) {
-                            val suns2 = Observable.fromCallable { database?.insert(l) }
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe({
-                                        println("Salvo com sucesso!")
-                                    }, {
-                                        println("error")
-                                    })
-                        }
+                        val suns2 = Observable.fromCallable { database?.deleteAll() }
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe({
+                                    for (l in linhas) {
+                                        Observable.fromCallable { database?.insert(l) }
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                                                    callback.onLoadSuccess(linhas)
+                                                }, {
+                                                    callback.onLoadError()
+                                                })
+                                    }
+                                }, {
+                                    println("error")
+                                })
 
-                        callback.onLoadSuccess(it)
                     } else
                         callback.onLoadError()
                 }, {

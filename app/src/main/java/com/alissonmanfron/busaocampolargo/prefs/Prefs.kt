@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import com.alissonmanfron.busaocampolargo.MyApplication
 
 object Prefs {
-    val PREF_ID = "carros"
+    val PREF_ID = "bus"
     private fun prefs(): SharedPreferences {
         val context = MyApplication.getInstance().applicationContext
         return context.getSharedPreferences(PREF_ID, 0)
@@ -17,4 +17,8 @@ object Prefs {
     var tabIdx: Int
         get() = getInt("tabIdx")
         set(value) = setInt("tabIdx", value)
+
+    var versionCod: Int
+        get() = getInt("versionCod")
+        set(value) = setInt("versionCod", value)
 }

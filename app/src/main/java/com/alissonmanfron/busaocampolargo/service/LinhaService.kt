@@ -20,4 +20,7 @@ class LinhaService {
 
     // Busca uma lista de carros
     fun getLinhas() = service.getLinhas()
+
+    // Busca a versão corrente da lista de linhas
+    fun getVersion() = service.getVersion()
 }

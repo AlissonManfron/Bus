@@ -1,6 +1,7 @@
 package com.alissonmanfron.busaocampolargo.fragment.linhas
 
 import com.alissonmanfron.busaocampolargo.model.Linha
+import com.alissonmanfron.busaocampolargo.model.Version
 
 interface FragLinhasContract {
 
@@ -29,6 +30,12 @@ interface FragLinhasContract {
             fun onLoadError()
         }
         fun loadLinhas(callback: OnLoadFinishedListener)
+
+        interface OnVersionFinishedListener {
+            fun onLoadSuccess(version: Version)
+            fun onLoadError()
+        }
+        fun loadVersion(callback: OnVersionFinishedListener)
 
         interface OnFavoriteFinishedListener {
             fun onFavoriteSuccess()
