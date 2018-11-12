@@ -17,12 +17,7 @@ class FragLinhasInteractorImpl : FragLinhasContract.LinhasInteractor {
     init { database = AppDatabase.getInstance()?.linhaDao() }
 
 
-    override fun loadVersion(callback: FragLinhasContract.LinhasInteractor.OnVersionFinishedListener) {
-
-    }
-
-    override fun loadLinhas(callback: FragLinhasContract.LinhasInteractor.OnLoadFinishedListener) {
-
+    override fun loadVersion(callback: FragLinhasContract.LinhasInteractor.OnLoadFinishedListener) {
         val service = LinhaService()
         val subs = service.getVersion()
                 .subscribeOn(Schedulers.io())
@@ -33,14 +28,16 @@ class FragLinhasInteractorImpl : FragLinhasContract.LinhasInteractor {
                         if (cod != it.cod) {
                             Prefs.versionCod = it.cod
                             fetchLinhas(callback)
-                        } else {
-                            fetchLocalLinhas(callback)
                         }
                     } else
                         callback.onLoadError()
                 }, {
                     callback.onLoadError()
                 })
+    }
+
+    override fun loadLinhas(callback: FragLinhasContract.LinhasInteractor.OnLoadFinishedListener) {
+        fetchLocalLinhas(callback)
     }
 
     private fun fetchLocalLinhas(callback: FragLinhasContract.LinhasInteractor.OnLoadFinishedListener) {

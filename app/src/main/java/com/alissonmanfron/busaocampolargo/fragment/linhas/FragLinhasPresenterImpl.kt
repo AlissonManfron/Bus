@@ -1,7 +1,6 @@
 package com.alissonmanfron.busaocampolargo.fragment.linhas
 
 import com.alissonmanfron.busaocampolargo.model.Linha
-import com.alissonmanfron.busaocampolargo.model.Version
 
 class FragLinhasPresenterImpl(private var linhasView: FragLinhasContract.LinhasView?,
                               private var linhasInteractor: FragLinhasContract.LinhasInteractor?) :
@@ -9,15 +8,14 @@ class FragLinhasPresenterImpl(private var linhasView: FragLinhasContract.LinhasV
 
 
     override fun loadVersion() {
-        linhasInteractor?.loadVersion(object : FragLinhasContract.LinhasInteractor.OnVersionFinishedListener {
-            override fun onLoadSuccess(version: Version) {
-                println("Version : ${version.cod}")
+        linhasInteractor?.loadVersion(object : FragLinhasContract.LinhasInteractor.OnLoadFinishedListener {
+            override fun onLoadSuccess(linhas: List<Linha>) {
+
             }
 
             override fun onLoadError() {
 
             }
-
         })
     }
 

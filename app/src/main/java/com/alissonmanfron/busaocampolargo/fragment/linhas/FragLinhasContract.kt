@@ -35,7 +35,7 @@ interface FragLinhasContract {
             fun onLoadSuccess(version: Version)
             fun onLoadError()
         }
-        fun loadVersion(callback: OnVersionFinishedListener)
+        fun loadVersion(callback: OnLoadFinishedListener)
 
         interface OnFavoriteFinishedListener {
             fun onFavoriteSuccess()
