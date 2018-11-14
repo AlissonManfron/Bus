@@ -1,11 +1,13 @@
 package com.alissonmanfron.busaocampolargo.fragment.linhas
 
+import com.alissonmanfron.busaocampolargo.di.base.BasePresenter
+import com.alissonmanfron.busaocampolargo.di.base.BaseView
 import com.alissonmanfron.busaocampolargo.model.Linha
 import com.alissonmanfron.busaocampolargo.model.Version
 
 interface FragLinhasContract {
 
-    interface LinhasView {
+    interface LinhasView : BaseView<LinhasPresenter> {
 
         fun setListLinhasObj(linhas: List<Linha>)
 
@@ -45,13 +47,11 @@ interface FragLinhasContract {
 
     }
 
-    interface LinhasPresenter {
+    interface LinhasPresenter : BasePresenter<LinhasView> {
 
         fun loadVersion()
 
         fun loadLinhas()
-
-        fun onDestroy()
 
         fun onClickLinha(linha: Linha)
 

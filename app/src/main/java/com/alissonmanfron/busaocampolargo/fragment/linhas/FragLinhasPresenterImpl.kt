@@ -2,10 +2,10 @@ package com.alissonmanfron.busaocampolargo.fragment.linhas
 
 import com.alissonmanfron.busaocampolargo.model.Linha
 
-class FragLinhasPresenterImpl(private var linhasView: FragLinhasContract.LinhasView?,
-                              private var linhasInteractor: FragLinhasContract.LinhasInteractor?) :
+class FragLinhasPresenterImpl(var linhasInteractor: FragLinhasContract.LinhasInteractor?) :
         FragLinhasContract.LinhasPresenter {
 
+    override var view: FragLinhasContract.LinhasView? = null
 
     override fun loadVersion() {
         linhasInteractor?.loadVersion(object : FragLinhasContract.LinhasInteractor.OnLoadFinishedListener {
@@ -21,30 +21,30 @@ class FragLinhasPresenterImpl(private var linhasView: FragLinhasContract.LinhasV
 
     override fun loadLinhas() {
 
-        linhasView?.showProgressBar()
+        view?.showProgressBar()
 
         linhasInteractor?.loadLinhas(object : FragLinhasContract.LinhasInteractor.OnLoadFinishedListener {
             override fun onLoadSuccess(linhas: List<Linha>) {
-                linhasView?.hideProgressBar()
-                linhasView?.setListLinhasObj(linhas)
+                view?.hideProgressBar()
+                view?.setListLinhasObj(linhas)
             }
 
             override fun onLoadError() {
-                linhasView?.hideProgressBar()
-                linhasView?.setErrorLoadLinhas()
+                view?.hideProgressBar()
+                view?.setErrorLoadLinhas()
             }
         })
     }
 
     override fun onClickLinha(linha: Linha) {
-        linhasView?.navigateToLinhaDetail(linha)
+        view?.navigateToLinhaDetail(linha)
     }
 
     override fun onClickFavoriteLinha(linha: Linha) {
 
         linhasInteractor?.changeFavorite(linha, object : FragLinhasContract.LinhasInteractor.OnFavoriteFinishedListener {
             override fun onFavoriteSuccess() {
-                linhasView?.successSetFavorite(linha,
+                view?.successSetFavorite(linha,
                         if (linha.isFavorite) {
                             "${linha.name} foi adicionado ao seus favoritos!"
                         } else
@@ -52,14 +52,19 @@ class FragLinhasPresenterImpl(private var linhasView: FragLinhasContract.LinhasV
             }
 
             override fun onFavoriteError() {
-                linhasView?.errorSetFavorite("Não foi possível favoritar a linha ${linha.name}!")
+                view?.errorSetFavorite("Não foi possível favoritar a linha ${linha.name}!")
             }
         })
     }
 
-    override fun onDestroy() {
-        linhasInteractor = null
-        linhasView = null
+    override fun subscribe(view: FragLinhasContract.LinhasView) {
+        this.view = view
     }
+
+    override fun unSubscribe() {
+        linhasInteractor = null
+        view = null
+    }
+
 
 }

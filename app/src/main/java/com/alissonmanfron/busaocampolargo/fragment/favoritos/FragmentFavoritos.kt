@@ -19,11 +19,12 @@ import com.alissonmanfron.busaocampolargo.model.Linha
 import kotlinx.android.synthetic.main.fragment_favoritos.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import org.koin.android.ext.android.inject
 
 class FragmentFavoritos : Fragment(), FragFavoritosContract.LinhasView {
 
     // Variables
-    private var presenter: FragFavoritosContract.LinhasPresenter? = null
+    override val presenter: FragFavoritosContract.LinhasPresenter by inject()
     private var adapter: LinhasFavAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,10 +46,10 @@ class FragmentFavoritos : Fragment(), FragFavoritosContract.LinhasView {
         setupRecyclerView()
 
         // Get instance presenter
-        presenter = FragFavoritosPresenterImpl(this, FragFavoritosInteractorImpl())
+        presenter.subscribe(this)
 
         // Get Linhas
-        presenter?.loadLinhas()
+        presenter.loadLinhas()
 
     }
 
@@ -103,22 +104,22 @@ class FragmentFavoritos : Fragment(), FragFavoritosContract.LinhasView {
     }
 
     fun onClickLinha(linha: Linha) {
-        presenter?.onClickLinha(linha)
+        presenter.onClickLinha(linha)
     }
 
     fun onClickFavoriteLinha(linha: Linha) {
-        presenter?.onClickFavoriteLinha(linha)
+        presenter.onClickFavoriteLinha(linha)
     }
 
     @Subscribe
     fun onRefresh(event: FavoriteAddEvent) {
         println("event = [${event.linha.isFavorite}]")
-        presenter?.loadLinhas()
+        presenter.loadLinhas()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter?.onDestroy()
+        presenter.unSubscribe()
         // Cancela os eventos do bus
         EventBus.getDefault().unregister(this)
     }

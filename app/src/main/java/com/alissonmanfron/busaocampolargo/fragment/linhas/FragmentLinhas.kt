@@ -22,14 +22,15 @@ import kotlinx.android.synthetic.main.fragment_linhas.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import android.view.MenuInflater
-
+import org.koin.android.ext.android.inject
 
 
 class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
 
-    // Variables
-    private var presenter: FragLinhasContract.LinhasPresenter? = null
+    // Get instance presenter by Koin
+    override val presenter: FragLinhasContract.LinhasPresenter by inject()
     private var adapter: LinhasAdapter? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,13 +55,13 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
         setupRecyclerView()
 
         // Get instance presenter
-        presenter = FragLinhasPresenterImpl(this, FragLinhasInteractorImpl())
+        presenter.subscribe(this)
 
         // Load version
-        presenter?.loadVersion()
+        presenter.loadVersion()
 
         // Get Linhas
-        presenter?.loadLinhas()
+        presenter.loadLinhas()
 
     }
 
@@ -115,17 +116,17 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
     }
 
     fun onClickLinha(linha: Linha) {
-        presenter?.onClickLinha(linha)
+        presenter.onClickLinha(linha)
     }
 
     fun onClickFavoriteLinha(linha: Linha) {
-        presenter?.onClickFavoriteLinha(linha)
+        presenter.onClickFavoriteLinha(linha)
     }
 
     @Subscribe
     fun onRefresh(event: FavoriteRemoveEvent) {
         println("event = [${event.linha.isFavorite}]")
-        presenter?.loadLinhas()
+        presenter.loadLinhas()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -151,7 +152,7 @@ class FragmentLinhas : Fragment(), FragLinhasContract.LinhasView {
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter?.onDestroy()
+        presenter.unSubscribe()
         // Cancela os eventos do bus
         EventBus.getDefault().unregister(this)
     }

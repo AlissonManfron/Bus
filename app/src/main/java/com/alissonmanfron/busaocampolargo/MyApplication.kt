@@ -2,6 +2,8 @@ package com.alissonmanfron.busaocampolargo
 
 import android.support.multidex.MultiDexApplication
 import android.util.Log
+import com.alissonmanfron.busaocampolargo.di.module.appModule
+import org.koin.android.ext.android.startKoin
 
 class MyApplication: MultiDexApplication() {
     private val TAG = "MyApplication"
@@ -11,6 +13,9 @@ class MyApplication: MultiDexApplication() {
         super.onCreate()
         // Salva a instância para termos acesso como Singleton
         appInstance = this
+
+        // Satart Koin
+        startKoin(this, listOf(appModule))
     }
 
     companion object {
