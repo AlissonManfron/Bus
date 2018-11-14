@@ -10,11 +10,10 @@ class FragLinhasPresenterImpl(var linhasInteractor: FragLinhasContract.LinhasInt
     override fun loadVersion() {
         linhasInteractor?.loadVersion(object : FragLinhasContract.LinhasInteractor.OnLoadFinishedListener {
             override fun onLoadSuccess(linhas: List<Linha>) {
-
+                view?.setListLinhasObj(linhas)
             }
 
             override fun onLoadError() {
-
             }
         })
     }
